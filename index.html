@@ -1361,20 +1361,210 @@
         const CURRENCY = "₹";
 
         // ====== YOUR STICKERS ======
-       let products = [
-    { id: 1, name: "Kawaii Sakura", category: "anime", price: 9, originalPrice: 29, emoji: "🌸", desc: "Soft anime cherry blossoms." },
-    { id: 2, name: "Dragon Ball Vibe", category: "anime", price: 9, originalPrice: 29, emoji: "🐉", desc: "Power level: maximum." },
-    { id: 3, name: "Ninja Fox", category: "anime", price: 9, originalPrice: 29, emoji: "🦊", desc: "Sneaky, cute, and stylish." },
-    { id: 4, name: "Happy Cat", category: "animals", price: 9, originalPrice: 29, emoji: "🐱", desc: "Purr-fect for everything." },
-    { id: 5, name: "Panda Chill", category: "animals", price: 9, originalPrice: 29, emoji: "🐼", desc: "Relax, it's just a panda." },
-    { id: 6, name: "Bunny Love", category: "animals", price: 9, originalPrice: 29, emoji: "🐰", desc: "Hop into good vibes." },
-    { id: 7, name: "Sports Car", category: "cars", price: 9, originalPrice: 29, emoji: "🏎️", desc: "Fast lane energy." },
-    { id: 8, name: "Classic Ride", category: "cars", price: 9, originalPrice: 29, emoji: "🚗", desc: "Vintage cool, every day." },
-    { id: 9, name: "Pookie Bear", category: "pookie", price: 9, originalPrice: 29, emoji: "🧸", desc: "The cutest pookie ever." },
-    { id: 10, name: "Pookie Heart", category: "pookie", price: 9, originalPrice: 29, emoji: "💜", desc: "Sending love in sticker form." },
-    { id: 11, name: "Lavender Dream", category: "pookie", price: 9, originalPrice: 29, emoji: "🪻", desc: "Soft lavender aesthetic." },
-    { id: 12, name: "Lightning Vibes", category: "cars", price: 9, originalPrice: 29, emoji: "⚡", desc: "Bold energy, everyday style." }
+      
+let products = [
+  {
+    id: 101,
+    name: "F1 Vibes 01",
+    category: "f1",
+    price: 9,
+    originalPrice: 29,
+    emoji: "🏎️",
+    desc: "F1 sticker",
+    image_url: "https://qbotqfudpuraarfwybpf.supabase.co/storage/v1/object/public/stickers/0a34ec11-1bf4-4d2c-adcc-a5e90f4b53a8.jpg"
+  },
+  {
+    id: 102,
+    name: "Anime Vibes 01",
+    category: "anime",
+    price: 9,
+    originalPrice: 29,
+    emoji: "✨",
+    desc: "Anime sticker",
+    image_url: "https://qbotqfudpuraarfwybpf.supabase.co/storage/v1/object/public/stickers/07c4bc5d-eade-4c26-9311-2dd9af721e79.jpg"
+  },
+  {
+    id: 103,
+    name: "Anime Vibes 02",
+    category: "anime",
+    price: 9,
+    originalPrice: 29,
+    emoji: "✨",
+    desc: "Anime sticker",
+    image_url: "https://qbotqfudpuraarfwybpf.supabase.co/storage/v1/object/public/stickers/0a836a80-c280-433b-bc0f-ff8f98c01262.jpg"
+  },
+  {
+    id: 104,
+    name: "F1 Vibes 02",
+    category: "f1",
+    price: 9,
+    originalPrice: 29,
+    emoji: "🏎️",
+    desc: "F1 sticker",
+    image_url: "https://qbotqfudpuraarfwybpf.supabase.co/storage/v1/object/public/stickers/0fc6543d-ad54-4f62-a7f6-dc0f1100b322.jpg"
+  },
+  {
+    id: 105,
+    name: "Introvert Vibes 01",
+    category: "introvert",
+    price: 9,
+    originalPrice: 29,
+    emoji: "🌙",
+    desc: "Introvert sticker",
+    image_url: "https://qbotqfudpuraarfwybpf.supabase.co/storage/v1/object/public/stickers/12290d2c-855c-4412-ba8c-944444bf119f.jpg"
+  },
+  {
+    id: 106,
+    name: "F1 Vibes 03",
+    category: "f1",
+    price: 9,
+    originalPrice: 29,
+    emoji: "🏎️",
+    desc: "F1 sticker",
+    image_url: "https://qbotqfudpuraarfwybpf.supabase.co/storage/v1/object/public/stickers/16efec74-9f94-44fd-80c0-4463ff2c8e87.jpg"
+  },
+  {
+    id: 107,
+    name: "Pookie Vibes 01",
+    category: "pookie",
+    price: 9,
+    originalPrice: 29,
+    emoji: "💗",
+    desc: "Pookie sticker",
+    image_url: "https://qbotqfudpuraarfwybpf.supabase.co/storage/v1/object/public/stickers/18b11d23-5498-4530-94f5-9a2afa8fe2bb.jpg"
+  },
+  {
+    id: 108,
+    name: "Engineering Vibes 01",
+    category: "engineering",
+    price: 9,
+    originalPrice: 29,
+    emoji: "⚙️",
+    desc: "Engineering sticker",
+    image_url: "https://qbotqfudpuraarfwybpf.supabase.co/storage/v1/object/public/stickers/1b535211-61ea-4843-bfaf-66d0270625f5.jpg"
+  },
+  {
+    id: 109,
+    name: "Pookie Vibes 02",
+    category: "pookie",
+    price: 9,
+    originalPrice: 29,
+    emoji: "💗",
+    desc: "Pookie sticker",
+    image_url: "https://qbotqfudpuraarfwybpf.supabase.co/storage/v1/object/public/stickers/1e3069e2-17cd-476f-beae-1983c82eda69.jpg"
+  },
+  {
+    id: 110,
+    name: "Engineering Vibes 02",
+    category: "engineering",
+    price: 9,
+    originalPrice: 29,
+    emoji: "⚙️",
+    desc: "Engineering sticker",
+    image_url: "https://qbotqfudpuraarfwybpf.supabase.co/storage/v1/object/public/stickers/2092fa94-77d5-44e7-907c-6b1e0217a481.jpg"
+  },
+  {
+    id: 111,
+    name: "Anime Vibes 03",
+    category: "anime",
+    price: 9,
+    originalPrice: 29,
+    emoji: "✨",
+    desc: "Anime sticker",
+    image_url: "https://qbotqfudpuraarfwybpf.supabase.co/storage/v1/object/public/stickers/2329df22-54d1-458e-8594-7fd4d102eb02.jpg"
+  },
+  {
+    id: 112,
+    name: "Other Vibes 01",
+    category: "other",
+    price: 9,
+    originalPrice: 29,
+    emoji: "⭐",
+    desc: "Sticker",
+    image_url: "https://qbotqfudpuraarfwybpf.supabase.co/storage/v1/object/public/stickers/2756d2a3-8fa5-41f2-bebd-4f3a213338dd.jpg"
+  },
+  {
+    id: 113,
+    name: "Pookie Vibes 03",
+    category: "pookie",
+    price: 9,
+    originalPrice: 29,
+    emoji: "💗",
+    desc: "Pookie sticker",
+    image_url: "https://qbotqfudpuraarfwybpf.supabase.co/storage/v1/object/public/stickers/27f456ee-eca8-49a6-920c-18995e2af12b.jpg"
+  },
+  {
+    id: 114,
+    name: "Other Vibes 02",
+    category: "other",
+    price: 9,
+    originalPrice: 29,
+    emoji: "⭐",
+    desc: "Sticker",
+    image_url: "https://qbotqfudpuraarfwybpf.supabase.co/storage/v1/object/public/stickers/2c41b637-a34d-4b4a-8566-da4ede23b263.jpg"
+  },
+  {
+    id: 115,
+    name: "Other Vibes 03",
+    category: "other",
+    price: 9,
+    originalPrice: 29,
+    emoji: "⭐",
+    desc: "Sticker",
+    image_url: "https://qbotqfudpuraarfwybpf.supabase.co/storage/v1/object/public/stickers/2d74b87f-ee71-483d-b57d-8e399d7bd077.jpg"
+  },
+  {
+    id: 116,
+    name: "F1 Vibes 04",
+    category: "f1",
+    price: 9,
+    originalPrice: 29,
+    emoji: "🏎️",
+    desc: "F1 sticker",
+    image_url: "https://qbotqfudpuraarfwybpf.supabase.co/storage/v1/object/public/stickers/2e59ee75-8a6b-412b-a6f3-3340c7f4d449.jpg"
+  },
+  {
+    id: 117,
+    name: "Anime Vibes 04",
+    category: "anime",
+    price: 9,
+    originalPrice: 29,
+    emoji: "✨",
+    desc: "Anime sticker",
+    image_url: "https://qbotqfudpuraarfwybpf.supabase.co/storage/v1/object/public/stickers/363ec588-e112-483b-8ce2-00d423f7f5f0.jpg"
+  },
+  {
+    id: 118,
+    name: "Other Vibes 04",
+    category: "other",
+    price: 9,
+    originalPrice: 29,
+    emoji: "⭐",
+    desc: "Sticker",
+    image_url: "https://qbotqfudpuraarfwybpf.supabase.co/storage/v1/object/public/stickers/3859d52e-6502-4503-8b47-0e81d20e030f.jpg"
+  },
+  {
+    id: 119,
+    name: "F1 Vibes 05",
+    category: "f1",
+    price: 9,
+    originalPrice: 29,
+    emoji: "🏎️",
+    desc: "F1 sticker",
+    image_url: "https://qbotqfudpuraarfwybpf.supabase.co/storage/v1/object/public/stickers/3a6305b1-a0ba-4e45-b56f-99e7689247ad.jpg"
+  },
+  {
+    id: 120,
+    name: "F1 Vibes 06",
+    category: "f1",
+    price: 9,
+    originalPrice: 29,
+    emoji: "🏎️",
+    desc: "F1 sticker",
+    image_url: "https://qbotqfudpuraarfwybpf.supabase.co/storage/v1/object/public/stickers/3bbfbec8-7532-458d-89d9-0fd32dab87f1.jpg"
+  }
 ];
+
 
         // ====== LOAD SAVED DATA (localStorage) ======
         let cart = JSON.parse(localStorage.getItem("stickverse_cart")) || [];
