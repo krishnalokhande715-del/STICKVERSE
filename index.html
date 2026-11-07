@@ -1436,7 +1436,11 @@
                             title="Like this sticker">
                         ${likedProducts.has(p.id) ? '❤️' : '🤍'}
                     </button>
-                    <div class="product-image">${p.emoji}</div>
+                    <div class="product-image">
+  ${p.image_url
+    ? `<img src="${p.image_url}" alt="${p.name}" loading="lazy">`
+    : p.emoji}
+</div>
                     <h3>${p.name}</h3>
                     <p class="description">${p.desc}</p>
                     <div class="product-bottom">
