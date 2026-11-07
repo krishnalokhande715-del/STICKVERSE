@@ -1715,6 +1715,46 @@ window.supabaseClient = window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_PUBLISHABLE_KEY
 );
+</script> 
+    <script>
+async function loadSupabaseProducts() {
+    try {
+        const { data, error } = await window.supabaseClient
+            .from("products")
+            .select("*")
+            .eq("active", true)
+            .order("id", { ascending: true });
+
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+            console.log("No active products found.");
+            return;
+        }
+
+        const dbProducts = data.map(row => ({
+            id: 100000 + Number(row.id),
+            name: row.name,
+            category: row.category.toLowerCase(),
+            price: Number(row.price_paise) / 100,
+            originalPrice: 29,
+            emoji: row.emoji || "✨",
+            desc: row.description || "",
+            image_url: row.image_url
+        }));
+
+        products = [...products, ...dbProducts];
+
+        renderProducts();
+
+        console.log("Supabase products loaded:", dbProducts.length);
+
+    } catch (error) {
+        console.error("Product loading error:", error);
+    }
+}
+
+loadSupabaseProducts();
 </script>
 </body>
 </html>
