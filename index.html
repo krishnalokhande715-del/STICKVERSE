@@ -1355,20 +1355,20 @@
         const CURRENCY = "₹";
 
         // ====== YOUR STICKERS ======
-        const products = [
-            { id: 1,  name: "Kawaii Sakura",   category: "anime",   price: 29, emoji: "🌸", desc: "Soft anime cherry blossoms." },
-            { id: 2,  name: "Dragon Ball Vibe", category: "anime",   price: 29, emoji: "🐉", desc: "Power level: maximum." },
-            { id: 3,  name: "Ninja Fox",        category: "anime",   price: 29, emoji: "🦊", desc: "Sneaky, cute, and stylish." },
-            { id: 4,  name: "Happy Cat",        category: "animals", price: 29, emoji: "🐱", desc: "Purr-fect for everything." },
-            { id: 5,  name: "Panda Chill",      category: "animals", price: 29, emoji: "🐼", desc: "Relax, it's just a panda." },
-            { id: 6,  name: "Bunny Love",       category: "animals", price: 29, emoji: "🐰", desc: "Hop into good vibes." },
-            { id: 7,  name: "Sports Car",       category: "cars",    price: 29, emoji: "🏎️", desc: "Fast lane energy." },
-            { id: 8,  name: "Classic Ride",     category: "cars",    price: 29, emoji: "🚗", desc: "Vintage cool, every day." },
-            { id: 9,  name: "Pookie Bear",      category: "pookie",  price: 29, emoji: "🧸", desc: "The cutest pookie ever." },
-            { id: 10, name: "Pookie Heart",     category: "pookie",  price: 29, emoji: "💜", desc: "Sending love in sticker form." },
-            { id: 11, name: "Lavender Dream",   category: "pookie",  price: 29, emoji: "🪻", desc: "Soft lavender aesthetic." },
-            { id: 12, name: "Lightning Vibes",  category: "cars",    price: 29, emoji: "⚡", desc: "Bold energy, everyday style." }
-        ];
+       const products = [
+    { id: 1, name: "Kawaii Sakura", category: "anime", price: 9, originalPrice: 29, emoji: "🌸", desc: "Soft anime cherry blossoms." },
+    { id: 2, name: "Dragon Ball Vibe", category: "anime", price: 9, originalPrice: 29, emoji: "🐉", desc: "Power level: maximum." },
+    { id: 3, name: "Ninja Fox", category: "anime", price: 9, originalPrice: 29, emoji: "🦊", desc: "Sneaky, cute, and stylish." },
+    { id: 4, name: "Happy Cat", category: "animals", price: 9, originalPrice: 29, emoji: "🐱", desc: "Purr-fect for everything." },
+    { id: 5, name: "Panda Chill", category: "animals", price: 9, originalPrice: 29, emoji: "🐼", desc: "Relax, it's just a panda." },
+    { id: 6, name: "Bunny Love", category: "animals", price: 9, originalPrice: 29, emoji: "🐰", desc: "Hop into good vibes." },
+    { id: 7, name: "Sports Car", category: "cars", price: 9, originalPrice: 29, emoji: "🏎️", desc: "Fast lane energy." },
+    { id: 8, name: "Classic Ride", category: "cars", price: 9, originalPrice: 29, emoji: "🚗", desc: "Vintage cool, every day." },
+    { id: 9, name: "Pookie Bear", category: "pookie", price: 9, originalPrice: 29, emoji: "🧸", desc: "The cutest pookie ever." },
+    { id: 10, name: "Pookie Heart", category: "pookie", price: 9, originalPrice: 29, emoji: "💜", desc: "Sending love in sticker form." },
+    { id: 11, name: "Lavender Dream", category: "pookie", price: 9, originalPrice: 29, emoji: "🪻", desc: "Soft lavender aesthetic." },
+    { id: 12, name: "Lightning Vibes", category: "cars", price: 9, originalPrice: 29, emoji: "⚡", desc: "Bold energy, everyday style." }
+];
 
         // ====== LOAD SAVED DATA (localStorage) ======
         let cart = JSON.parse(localStorage.getItem("stickverse_cart")) || [];
