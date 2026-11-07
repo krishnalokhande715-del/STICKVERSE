@@ -1695,6 +1695,16 @@
         renderProducts();
         updateCart();
     </script>
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
+<script>
+const SUPABASE_URL = "https://qbotqfudpuraarfwybpf.supabase.co/rest/v1/";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_oQZRy8bbOZSFGquKFFX_-g_DJBxR2lJ";
+
+window.supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+);
+</script>
 </body>
 </html>
