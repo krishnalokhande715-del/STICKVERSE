@@ -1700,6 +1700,18 @@ let products = [
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
 <script>
+    async function loadStickerImages() {
+    const { data, error } = await supabaseClient.storage
+        .from('stickers2')
+        .list();
+
+    if (error) {
+        console.error("Could not load stickers:", error);
+        return;
+    }
+
+    console.log("Your sticker images:", data);
+}
 const SUPABASE_URL = "https://qbotqfudpuraarfwybpf.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_oQZRy8bbOZSFGquKFFX_-g_DJBxR2lJ";
 
