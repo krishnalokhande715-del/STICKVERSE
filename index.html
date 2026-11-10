@@ -1342,10 +1342,13 @@
         <div class="cart-items" id="cart-items"></div>
 
         <div class="cart-footer">
-            <div class="total-row">
-                <span>Total</span>
-                <span id="cart-total">₹0</span>
-            </div>
+           <div id="delivery-offer" style="margin-bottom:18px;">
+</div>
+
+<div class="total-row">
+    <span>Final Total</span>
+    <span id="cart-total">₹0</span>
+</div>
             <button class="checkout-btn" id="checkout-btn" onclick="checkoutWhatsApp()" disabled>
                 Order on WhatsApp
             </button>
@@ -1571,10 +1574,82 @@ let products = [
         }
 
         function openCart() {
-            document.getElementById("cart-drawer").classList.add("open");
-            document.getElementById("overlay").classList.add("show");
-        }
+         // ====== CART WITH FREE DELIVERY OFFER ======
+const DELIVERY_CHARGE = 50;
+const FREE_DELIVERY_LIMIT = 189;
 
+function updateCart() {
+    const itemsContainer = document.getElementById("cart-items");
+
+    const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+    const subtotal = cart.reduce(
+        (sum, item) => sum + item.qty * item.price, 0
+    );
+
+    const delivery = subtotal >= FREE_DELIVERY_LIMIT
+        ? 0
+        : DELIVERY_CHARGE;
+
+    const finalTotal = subtotal + delivery;
+    const remaining = Math.max(0, FREE_DELIVERY_LIMIT - subtotal);
+    const progress = Math.min(100, (subtotal / FREE_DELIVERY_LIMIT) * 100);
+
+    document.getElementById("cart-count").textContent = totalCount;
+
+    document.getElementById("cart-total").textContent =
+        `${CURRENCY}${finalTotal}`;
+
+    document.getElementById("checkout-btn").disabled = cart.length === 0;
+
+    let offerHTML = subtotal >= FREE_DELIVERY_LIMIT
+        ? `<p style="color:#16A34A;font-weight:bold;">
+             🎉 Congratulations! You've unlocked FREE delivery!
+           </p>`
+        : `<p style="color:var(--text);font-size:13px;">
+             Add ₹${remaining} more to unlock FREE delivery!
+           </p>`;
+
+    document.getElementById("delivery-offer").innerHTML = `
+        ${offerHTML}
+        <div style="background:#ddd;border-radius:20px;height:9px;margin:10px 0;">
+            <div style="width:${progress}%;background:#16A34A;height:9px;
+                        border-radius:20px;transition:width .3s;"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;">
+            <span>Sticker subtotal</span>
+            <b>${CURRENCY}${subtotal}</b>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:8px;">
+            <span>Delivery</span>
+            <b>${delivery === 0 ? "FREE" : CURRENCY + delivery}</b>
+        </div>
+    `;
+
+    if (cart.length === 0) {
+        itemsContainer.innerHTML =
+            `<p class="cart-empty">Your cart is empty.<br>Add some stickers!</p>`;
+        return;
+    }
+
+    itemsContainer.innerHTML = cart.map(item => `
+        <div class="cart-item">
+            <div class="thumb">${item.emoji}</div>
+            <div class="info">
+                <h4>${item.name}</h4>
+                <small>${CURRENCY}${item.price} each</small>
+                <br>
+                <button class="remove" onclick="removeItem(${item.id})">
+                    Remove
+                </button>
+            </div>
+            <div class="qty">
+                <button onclick="changeQty(${item.id}, -1)">−</button>
+                <span>${item.qty}</span>
+                <button onclick="changeQty(${item.id}, 1)">+</button>
+            </div>
+        </div>
+    `).join("");
+}
         function closeCart() {
             document.getElementById("cart-drawer").classList.remove("open");
             document.getElementById("overlay").classList.remove("show");
@@ -1610,25 +1685,32 @@ let products = [
 
         // ====== WHATSAPP CHECKOUT ======
         function checkoutWhatsApp() {
-            if (cart.length === 0) return;
+           function checkoutWhatsApp() {
+    if (cart.length === 0) return;
 
-            burstConfetti();
+    let subtotal = 0;
+    let message = "Hello STICKVERSE! I'd like to order:\n\n";
 
-            let message = "Hello STICKVERSE! I'd like to order:%0A%0A";
-            let total = 0;
+    cart.forEach((item, index) => {
+        const itemTotal = item.qty * item.price;
+        subtotal += itemTotal;
 
-            cart.forEach((item, index) => {
-                const subtotal = item.qty * item.price;
-                total += subtotal;
-                message += `${index + 1}. ${item.name} x${item.qty} = ${CURRENCY}${subtotal}%0A`;
-            });
+        message += `${index + 1}. ${item.name} x${item.qty} = ₹${itemTotal}\n`;
+    });
 
-            message += `%0A*Total: ${CURRENCY}${total}*%0A%0APlease confirm my order. Thank you!`;
+    const delivery = subtotal >= FREE_DELIVERY_LIMIT ? 0 : DELIVERY_CHARGE;
+    const finalTotal = subtotal + delivery;
 
-            setTimeout(() => {
-                window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, "_blank");
-            }, 500);
-        }
+    message += `\nSticker Subtotal: ₹${subtotal}`;
+    message += `\nDelivery: ${delivery === 0 ? "FREE" : "₹" + delivery}`;
+    message += `\nFinal Total: ₹${finalTotal}`;
+    message += "\n\nPlease confirm my order. Thank you!";
+
+    window.open(
+        `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`,
+        "_blank"
+    );
+}
 
         // ====== TOAST ======
         function showToast(text) {
