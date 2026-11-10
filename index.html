@@ -263,6 +263,17 @@
 
         .cart-btn.bounce { animation: cartBounce 0.5s ease; }
 
+        /* CART BUTTON CLICK FIX */
+        nav { isolation: isolate; }
+        .nav-links { position: relative; z-index: 2; }
+        #cart-btn {
+            position: relative;
+            z-index: 3;
+            pointer-events: auto;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
         @keyframes cartBounce {
             0%, 100% { transform: scale(1); }
             40%      { transform: scale(1.2) rotate(-5deg); }
@@ -1196,7 +1207,7 @@
             <a class="link" href="#shop">Shop</a>
             <a class="link" href="#about">About</a>
             <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle dark mode">🌙</button>
-            <button class="cart-btn" id="cart-btn" onclick="openCart()">
+            <button type="button" class="cart-btn" id="cart-btn" onclick="openCart()">
                 🛒 Cart (<span id="cart-count">0</span>)
             </button>
         </div>
@@ -1499,8 +1510,12 @@ let products = [
 
         // ====== CART (saved) ======
         function addToCart(id, btnElement) {
-            const product = products.find(p => p.id === id);
-            const existing = cart.find(item => item.id === id);
+            const product = products.find(p => Number(p.id) === Number(id));
+            if (!product) {
+                console.error("STICKVERSE: Product not found:", id);
+                return;
+            }
+            const existing = cart.find(item => Number(item.id) === Number(id));
 
             if (existing) {
                 existing.qty++;
@@ -1618,9 +1633,24 @@ function updateCart() {
         </div>
     `).join("");
 }
+        function openCart() {
+            const drawer = document.getElementById("cart-drawer");
+            const overlay = document.getElementById("overlay");
+
+            if (!drawer || !overlay) {
+                console.error("STICKVERSE: Cart drawer or overlay element is missing.");
+                return;
+            }
+
+            drawer.classList.add("open");
+            overlay.classList.add("show");
+        }
+
         function closeCart() {
-            document.getElementById("cart-drawer").classList.remove("open");
-            document.getElementById("overlay").classList.remove("show");
+            const drawer = document.getElementById("cart-drawer");
+            const overlay = document.getElementById("overlay");
+            if (drawer) drawer.classList.remove("open");
+            if (overlay) overlay.classList.remove("show");
         }
 
         // ====== CONFETTI ======
@@ -1743,6 +1773,10 @@ function updateCart() {
             });
         });
 
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") closeCart();
+        });
+
         // ====== START ======
         renderProducts();
         updateCart();
@@ -1750,19 +1784,6 @@ function updateCart() {
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
 <script>
-    async function loadStickerImages() {
-    const { data, error } = await supabaseClient.storage
-        .from('stickers2')
-        .list();
-
-    if (error) {
-        console.error("Could not load stickers:", error);
-        return;
-    }
-
-    console.log("Your sticker images:", data);
-        loadStickerImages();
-}
 const SUPABASE_URL = "https://qbotqfudpuraarfwybpf.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_oQZRy8bbOZSFGquKFFX_-g_DJBxR2lJ";
 
