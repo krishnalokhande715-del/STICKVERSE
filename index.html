@@ -1541,39 +1541,7 @@ let products = [
             updateCart();
         }
 
-        function updateCart() {
-            const itemsContainer = document.getElementById("cart-items");
-            const totalCount = cart.reduce((sum, i) => sum + i.qty, 0);
-            const totalPrice = cart.reduce((sum, i) => sum + i.qty * i.price, 0);
-
-            document.getElementById("cart-count").textContent = totalCount;
-            document.getElementById("cart-total").textContent = `${CURRENCY}${totalPrice}`;
-            document.getElementById("checkout-btn").disabled = cart.length === 0;
-
-            if (cart.length === 0) {
-                itemsContainer.innerHTML = `<p class="cart-empty">Your cart is empty.<br>Add some stickers!</p>`;
-                return;
-            }
-
-            itemsContainer.innerHTML = cart.map(item => `
-                <div class="cart-item">
-                    <div class="thumb">${item.emoji}</div>
-                    <div class="info">
-                        <h4>${item.name}</h4>
-                        <small>${CURRENCY}${item.price} each</small>
-                        <br>
-                        <button class="remove" onclick="removeItem(${item.id})">Remove</button>
-                    </div>
-                    <div class="qty">
-                        <button onclick="changeQty(${item.id}, -1)">−</button>
-                        <span>${item.qty}</span>
-                        <button onclick="changeQty(${item.id}, 1)">+</button>
-                    </div>
-                </div>
-            `).join("");
-        }
-
-        function openCart() {
+      
          // ====== CART WITH FREE DELIVERY OFFER ======
 const DELIVERY_CHARGE = 50;
 const FREE_DELIVERY_LIMIT = 189;
