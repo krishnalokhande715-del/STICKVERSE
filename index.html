@@ -804,6 +804,15 @@
             font-size: 18px;
         }
 
+
+        /* ===== SALE PRICE DISPLAY ===== */
+        .price.sale-price { display:flex; align-items:baseline; gap:8px; white-space:nowrap; }
+        .sale-price del { color:var(--muted); font-size:13px; font-weight:500; opacity:.85; }
+        .sale-price strong { color:var(--lavender-dark); font-size:19px; font-weight:800; }
+        .sale-badge { display:inline-block; margin-left:5px; padding:2px 7px; border-radius:10px; background:#DCFCE7; color:#15803D; font-size:9px; font-weight:800; vertical-align:middle; }
+        .cart-sale-price del { color:var(--muted); margin-right:5px; }
+        .cart-sale-price strong { color:var(--lavender-dark); }
+
         .add-btn {
             background: var(--lavender);
             color: #fff;
@@ -1178,7 +1187,20 @@
         @media (max-width: 360px) {
             .products { grid-template-columns: 1fr; }
         }
-    </style>
+    
+/* ===== STICKVERSE HOMEPAGE UPGRADE ===== */
+.promo-strip{background:linear-gradient(90deg,#7c5cd6,#a78bfa);color:#fff;text-align:center;padding:11px 16px;font-weight:700;font-size:13px;letter-spacing:.3px}
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:25px}
+.feature-card{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:22px;box-shadow:0 8px 25px #7c5cd615}
+.feature-card .feature-icon{font-size:32px;margin-bottom:10px}.feature-card h3{margin-bottom:7px;color:var(--text)}.feature-card p{color:var(--muted);font-size:13px}
+.feature-card button,.feature-card a,.feature-action{display:inline-block;margin-top:14px;border:0;border-radius:24px;padding:10px 17px;background:var(--lavender-dark);color:white;text-decoration:none;font:600 13px Poppins,sans-serif;cursor:pointer}
+.pack-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:18px 0}.pack-option{display:flex;align-items:center;gap:9px;background:var(--card);border:1px solid var(--border);padding:12px;border-radius:13px;font-size:13px}
+.pack-summary,.track-result{background:var(--lavender-light);padding:16px;border-radius:16px;margin-top:14px;color:var(--text)}
+.review-form{display:grid;gap:10px;max-width:560px;margin:20px auto}.review-form input,.review-form textarea,.track-form input{width:100%;padding:12px;border:1px solid var(--border);border-radius:12px;background:var(--card);color:var(--text);font:14px Poppins,sans-serif}.review-form button,.track-form button{border:0;border-radius:24px;padding:12px 20px;background:var(--lavender-dark);color:white;font-weight:700;cursor:pointer}
+.review-card{background:var(--card);border:1px solid var(--border);border-radius:17px;padding:17px}.review-stars{color:#e6a323;letter-spacing:2px}.track-form{display:flex;gap:10px;max-width:560px;margin:20px auto}.track-form input{flex:1}.wish-count{font-size:12px;color:var(--muted)}
+@media(max-width:600px){.track-form{flex-direction:column}.promo-strip{font-size:11px}}
+
+</style>
 </head>
 <body>
 
@@ -1205,6 +1227,7 @@
             <a class="link" href="#home">Home</a>
             <a class="link" href="#categories">Categories</a>
             <a class="link" href="#shop">Shop</a>
+            <a class="link" href="#wishlist">Wishlist</a>
             <a class="link" href="#about">About</a>
             <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle dark mode">🌙</button>
             <button type="button" class="cart-btn" id="cart-btn" onclick="openCart()">
@@ -1212,6 +1235,8 @@
             </button>
         </div>
     </nav>
+
+    <div class="promo-strip">💜 EVERY STICKER <s>₹29</s> ₹9 &nbsp; • &nbsp; FREE DELIVERY ON ORDERS ABOVE ₹189</div>
 
     <!-- HERO -->
     <header class="hero" id="home">
@@ -1304,6 +1329,52 @@
         <div class="products" id="product-list"></div>
     </section>
 
+
+    <!-- FEATURED STORE TOOLS -->
+    <section class="section reveal" id="featured">
+      <div class="section-heading"><h2>Your Sticker <span class="highlight">Universe</span></h2><p>Discover favourites, create a pack and keep track of your order.</p></div>
+      <div class="feature-grid">
+        <article class="feature-card"><div class="feature-icon">🔥</div><h3>Trending & bestsellers</h3><p>Explore the stickers people are loving right now.</p><a href="#shop">Shop stickers</a></article>
+        <article class="feature-card"><div class="feature-icon">🎁</div><h3>Build your own pack</h3><p>Choose your favourite designs and add them together.</p><a href="#build-pack">Build a pack</a></article>
+        <article class="feature-card"><div class="feature-icon">💗</div><h3>Your wishlist</h3><p>Save designs you want to come back to.</p><a href="#wishlist">View wishlist</a></article>
+        <article class="feature-card"><div class="feature-icon">📦</div><h3>Track your order</h3><p>Contact our team with your order details for an update.</p><a href="#order-tracking">Track order</a></article>
+      </div>
+    </section>
+
+    <section class="section reveal" id="build-pack">
+      <div class="section-heading"><h2>Build Your Own <span class="highlight">Sticker Pack</span></h2><p>Select the stickers you love. Each selected sticker is added to your cart.</p></div>
+      <div id="pack-options" class="pack-list"><p>Loading available stickers…</p></div>
+      <div class="pack-summary"><strong id="pack-count">0 stickers selected</strong><p id="pack-price">Pack total: ₹0</p><button class="feature-action" onclick="addSelectedPack()">Add selected stickers to cart</button></div>
+    </section>
+
+    <section class="section reveal" id="combo-packs">
+      <div class="section-heading"><h2>Sticker <span class="highlight">Combo Packs</span></h2><p>Build a bundle from the designs currently available in our shop.</p></div>
+      <div class="feature-grid">
+        <article class="feature-card"><div class="feature-icon">✨</div><h3>Mini combo</h3><p>Choose any 3 available stickers.</p><button onclick="addComboPack(3)">Choose 3 stickers</button></article>
+        <article class="feature-card"><div class="feature-icon">🌈</div><h3>Vibe combo</h3><p>Choose any 5 available stickers.</p><button onclick="addComboPack(5)">Choose 5 stickers</button></article>
+        <article class="feature-card"><div class="feature-icon">💜</div><h3>Big mood combo</h3><p>Choose any 10 available stickers.</p><button onclick="addComboPack(10)">Choose 10 stickers</button></article>
+      </div>
+      <p style="text-align:center;color:var(--muted);font-size:12px;margin-top:12px">Combo buttons add the first available items. Review your cart before checkout; standard delivery rules apply.</p>
+    </section>
+
+    <section class="section reveal" id="wishlist">
+      <div class="section-heading"><h2>Your <span class="highlight">Wishlist</span></h2><p>Tap the heart on a product to save it here.</p></div>
+      <div class="products" id="wishlist-products"><p class="empty-msg">Your wishlist is empty for now.</p></div>
+    </section>
+
+    <section class="section reveal" id="reviews">
+      <div class="section-heading"><h2>Customer <span class="highlight">Love</span></h2><p>Reviews shared on this browser appear here.</p></div>
+      <div id="review-list" class="feature-grid"><article class="review-card"><p>Be the first to share your STICKVERSE experience!</p></article></div>
+      <form class="review-form" onsubmit="submitLocalReview(event)"><input id="review-name" maxlength="40" placeholder="Your name" required><select id="review-rating" aria-label="Rating" style="padding:12px;border:1px solid var(--border);border-radius:12px;background:var(--card);color:var(--text)"><option value="5">★★★★★ — Excellent</option><option value="4">★★★★☆ — Good</option><option value="3">★★★☆☆ — Okay</option><option value="2">★★☆☆☆ — Not great</option><option value="1">★☆☆☆☆ — Poor</option></select><textarea id="review-message" rows="3" maxlength="400" placeholder="Write your review" required></textarea><button type="submit">Post review on this device</button></form>
+      <p style="text-align:center;color:var(--muted);font-size:12px">These demo reviews are stored only in this browser. They are not submitted to the STICKVERSE database.</p>
+    </section>
+
+    <section class="section reveal" id="order-tracking">
+      <div class="section-heading"><h2>Track Your <span class="highlight">Order</span></h2><p>Need an update? Send your order number to our support team.</p></div>
+      <form class="track-form" onsubmit="contactOrderSupport(event)"><input id="tracking-order-id" placeholder="Enter your order number" required><button type="submit">Request order update</button></form>
+      <div class="track-result">📦 Our team can confirm your order status: Pending → Confirmed → Preparing → Shipped → Delivered. Live automatic tracking will require connecting an order-status workflow to Supabase.</div>
+    </section>
+
     <!-- CUSTOM ORDERS -->
     <section class="custom reveal">
         <h2>Want Something <span class="highlight">Personal?</span></h2>
@@ -1383,7 +1454,7 @@ let products = [
 
 
         // ====== LOAD SAVED DATA (localStorage) ======
-        let cart = JSON.parse(localStorage.getItem("stickverse_cart")) || [];
+        let cart = (JSON.parse(localStorage.getItem("stickverse_cart")) || []).map(item => ({ ...item, price: 9, originalPrice: 29 }));
         let likedProducts = new Set(JSON.parse(localStorage.getItem("stickverse_likes")) || []);
         let currentFilter = "all";
 
@@ -1456,7 +1527,7 @@ let products = [
                     <h3>${p.name}</h3>
                     <p class="description">${p.desc}</p>
                     <div class="product-bottom">
-                        <span class="price">${CURRENCY}${p.price}</span>
+                        <span class="price sale-price"><del>${CURRENCY}${p.originalPrice || 29}</del><strong>${CURRENCY}${p.price}</strong><span class="sale-badge">SALE</span></span>
                         <button class="add-btn" onclick="addToCart(${p.id}, this)">Add +</button>
                     </div>
                 </div>
@@ -1619,7 +1690,7 @@ function updateCart() {
             <div class="thumb">${item.emoji}</div>
             <div class="info">
                 <h4>${item.name}</h4>
-                <small>${CURRENCY}${item.price} each</small>
+                <small class="cart-sale-price"><del>${CURRENCY}${item.originalPrice || 29}</del><strong>${CURRENCY}${item.price} each</strong></small>
                 <br>
                 <button class="remove" onclick="removeItem(${item.id})">
                     Remove
@@ -1777,9 +1848,51 @@ function updateCart() {
             if (event.key === "Escape") closeCart();
         });
 
+
+        // ===== HOMEPAGE UPGRADE FEATURES =====
+        function renderPackOptions() {
+            const host = document.getElementById('pack-options');
+            if (!host) return;
+            if (!products.length) { host.innerHTML = '<p>No active stickers are available yet. Add products in the shop first.</p>'; return; }
+            host.innerHTML = products.map(p => `<label class="pack-option"><input type="checkbox" value="${Number(p.id)}" onchange="updatePackSummary()"><span>${p.emoji || '✨'} ${escapePackText(p.name)} — ₹29 → ₹${Number(p.price)}</span></label>`).join('');
+            updatePackSummary();
+        }
+        function escapePackText(value) { return String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+        function updatePackSummary() {
+            const chosen = [...document.querySelectorAll('#pack-options input:checked')].map(x => Number(x.value));
+            const total = chosen.reduce((sum,id) => { const p=products.find(x=>Number(x.id)===id); return sum+(p?Number(p.price):0); },0);
+            document.getElementById('pack-count').textContent = `${chosen.length} stickers selected`;
+            document.getElementById('pack-price').textContent = `Pack total: ₹${total}`;
+        }
+        function addSelectedPack() {
+            const ids=[...document.querySelectorAll('#pack-options input:checked')].map(x=>Number(x.value));
+            if(!ids.length){showToast('Select at least one sticker');return;}
+            ids.forEach(id=>addToCart(id,null));
+            document.querySelectorAll('#pack-options input:checked').forEach(x=>x.checked=false);
+            updatePackSummary(); showToast('Your sticker pack was added!');
+        }
+        function addComboPack(count) {
+            if(!products.length){showToast('No stickers available yet');return;}
+            products.slice(0,count).forEach(p=>addToCart(p.id,null));
+            showToast(`${Math.min(count,products.length)} stickers added to cart`);
+        }
+        function renderWishlist() {
+            const host=document.getElementById('wishlist-products'); if(!host)return;
+            const saved=products.filter(p=>likedProducts.has(p.id));
+            if(!saved.length){host.innerHTML='<p class="empty-msg">Your wishlist is empty for now. Tap a heart on a sticker to save it.</p>';return;}
+            host.innerHTML=saved.map(p=>`<article class="product"><div class="product-image">${p.image_url?`<img src="${p.image_url}" alt="${escapePackText(p.name)}" style="max-width:100%;max-height:100%;object-fit:contain">`:p.emoji||'✨'}</div><h3>${escapePackText(p.name)}</h3><p class="sale-price"><del>₹${Number(p.originalPrice || 29)}</del> <strong>₹${Number(p.price)}</strong> <span class="sale-badge">SALE</span></p><button class="add-btn" onclick="addToCart(${Number(p.id)},this)">Add to cart</button><button class="feature-action" onclick="removeWishlistItem(${Number(p.id)})">Remove</button></article>`).join('');
+        }
+        function removeWishlistItem(id){likedProducts.delete(id);saveLikes();renderWishlist();renderProducts();}
+        function submitLocalReview(event){event.preventDefault();const name=document.getElementById('review-name').value.trim();const message=document.getElementById('review-message').value.trim();const rating=Number(document.getElementById('review-rating').value);if(!name||!message)return;const key='stickverse_local_reviews';const list=JSON.parse(localStorage.getItem(key)||'[]');list.unshift({name,message,rating,date:new Date().toLocaleDateString()});localStorage.setItem(key,JSON.stringify(list.slice(0,20)));event.target.reset();renderReviews();showToast('Review saved on this device');}
+        function renderReviews(){const host=document.getElementById('review-list');if(!host)return;const list=JSON.parse(localStorage.getItem('stickverse_local_reviews')||'[]');if(!list.length){host.innerHTML='<article class="review-card"><p>Be the first to share your STICKVERSE experience!</p></article>';return;}host.innerHTML=list.map(r=>`<article class="review-card"><div class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div><strong>${escapePackText(r.name)}</strong><p>${escapePackText(r.message)}</p><small>${escapePackText(r.date)}</small></article>`).join('');}
+        function contactOrderSupport(event){event.preventDefault();const id=document.getElementById('tracking-order-id').value.trim();const msg=`Hello STICKVERSE! Please share an update for my order: ${id}`;window.open(`https://wa.me/917020923277?text=${encodeURIComponent(msg)}`,'_blank','noopener');}
+
         // ====== START ======
         renderProducts();
         updateCart();
+        renderPackOptions();
+        renderWishlist();
+        renderReviews();
     </script>
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
@@ -1812,7 +1925,7 @@ async function loadSupabaseProducts() {
             id: 100000 + Number(row.id),
             name: row.name,
             category: row.category.toLowerCase(),
-            price: Number(row.price_paise) / 100,
+            price: 9,
             originalPrice: 29,
             emoji: row.emoji || "✨",
             desc: row.description || "",
@@ -1822,6 +1935,8 @@ async function loadSupabaseProducts() {
         products = [...products, ...dbProducts];
 
         renderProducts();
+        renderPackOptions();
+        renderWishlist();
 
         console.log("Supabase products loaded:", dbProducts.length);
 
