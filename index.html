@@ -1154,6 +1154,11 @@
             }
         }
 
+        .view-all-wrap { display:flex; justify-content:center; margin-top:28px; }
+        .view-all-btn { border:0; border-radius:28px; padding:12px 28px; background:var(--lavender-dark); color:#fff; font:600 14px Poppins,sans-serif; cursor:pointer; box-shadow:0 7px 18px rgba(124,92,214,.2); }
+        .view-all-btn:hover { transform:translateY(-2px); }
+        .best-seller-note { text-align:center; color:var(--muted); font-size:12px; margin-top:8px; }
+
         /* ===== MOBILE ===== */
         @media (max-width: 900px) {
             .products { grid-template-columns: repeat(2, 1fr); }
@@ -1194,7 +1199,7 @@
         }
 
         @media (max-width: 360px) {
-            .products { grid-template-columns: 1fr; }
+            .products { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         }
     
 /* ===== STICKVERSE HOMEPAGE UPGRADE ===== */
@@ -1337,11 +1342,15 @@
     <!-- PRODUCTS -->
     <section class="section reveal" id="shop">
         <div class="section-heading">
-            <h2>Our <span class="highlight">Stickers</span></h2>
-            <p>Small stickers. Big vibes. Each sticker is 5 x 5 cm.</p>
+            <h2 id="shop-title">Best <span class="highlight">Sellers</span></h2>
+            <p id="shop-subtitle">The stickers customers are loving. Small stickers. Big vibes.</p>
         </div>
 
         <div class="products" id="product-list"></div>
+        <div class="view-all-wrap">
+            <button class="view-all-btn" id="view-all-btn" type="button" onclick="toggleViewAll()">View All Stickers</button>
+        </div>
+        <p class="best-seller-note" id="best-seller-note">Ranked by confirmed orders</p>
     </section>
 
 
@@ -1472,6 +1481,8 @@ let products = [
         let cart = (JSON.parse(localStorage.getItem("stickverse_cart")) || []).map(item => ({ ...item, price: 9, originalPrice: 29 }));
         let likedProducts = new Set(JSON.parse(localStorage.getItem("stickverse_likes")) || []);
         let currentFilter = "all";
+        let showAllProducts = false;
+        let hasConfirmedSales = false;
 
         function saveCart() {
             localStorage.setItem("stickverse_cart", JSON.stringify(cart));
@@ -1516,37 +1527,65 @@ let products = [
         }
 
         // ====== RENDER PRODUCTS ======
+        function getProductsForDisplay() {
+            const filtered = currentFilter === "all"
+                ? [...products]
+                : products.filter(p => p.category === currentFilter);
+
+            // Once order data is available, rank products by confirmed quantity.
+            // Before the first confirmed order, show the first eight active products as featured items.
+            if (hasConfirmedSales) {
+                filtered.sort((a, b) => (b.bestSellerCount || 0) - (a.bestSellerCount || 0));
+            }
+            return showAllProducts ? filtered : filtered.slice(0, 8);
+        }
+
         function renderProducts() {
             const list = document.getElementById("product-list");
-            const filtered = currentFilter === "all"
-                ? products
-                : products.filter(p => p.category === currentFilter);
+            const filtered = getProductsForDisplay();
+            const totalInCategory = currentFilter === "all"
+                ? products.length
+                : products.filter(p => p.category === currentFilter).length;
 
             if (filtered.length === 0) {
                 list.innerHTML = `<p class="empty-msg">No stickers in this category yet.</p>`;
-                return;
+            } else {
+                list.innerHTML = filtered.map((p, i) => `
+                    <div class="product" style="animation-delay: ${i * 0.08}s">
+                        <button class="like-btn ${likedProducts.has(p.id) ? 'liked' : ''}"
+                                onclick="toggleLike(${p.id}, this)"
+                                title="Like this sticker">
+                            ${likedProducts.has(p.id) ? '❤️' : '🤍'}
+                        </button>
+                        <div class="product-image">
+      ${p.image_url
+        ? `<img src="${p.image_url}" alt="${p.name}" loading="lazy">`
+        : p.emoji}
+    </div>
+                        <h3>${p.name}</h3>
+                        <p class="description">${p.desc}</p>
+                        <div class="product-bottom">
+                            <span class="price sale-price"><del>${CURRENCY}${p.originalPrice || 29}</del><strong>${CURRENCY}${p.price}</strong><span class="sale-badge">SALE</span></span>
+                            <button class="add-btn" onclick="addToCart(${p.id}, this)">Add +</button>
+                        </div>
+                    </div>
+                `).join("");
             }
 
-            list.innerHTML = filtered.map((p, i) => `
-                <div class="product" style="animation-delay: ${i * 0.08}s">
-                    <button class="like-btn ${likedProducts.has(p.id) ? 'liked' : ''}"
-                            onclick="toggleLike(${p.id}, this)"
-                            title="Like this sticker">
-                        ${likedProducts.has(p.id) ? '❤️' : '🤍'}
-                    </button>
-                    <div class="product-image">
-  ${p.image_url
-    ? `<img src="${p.image_url}" alt="${p.name}" loading="lazy">`
-    : p.emoji}
-</div>
-                    <h3>${p.name}</h3>
-                    <p class="description">${p.desc}</p>
-                    <div class="product-bottom">
-                        <span class="price sale-price"><del>${CURRENCY}${p.originalPrice || 29}</del><strong>${CURRENCY}${p.price}</strong><span class="sale-badge">SALE</span></span>
-                        <button class="add-btn" onclick="addToCart(${p.id}, this)">Add +</button>
-                    </div>
-                </div>
-            `).join("");
+            const viewButton = document.getElementById("view-all-btn");
+            viewButton.style.display = totalInCategory > 8 ? "inline-block" : "none";
+            viewButton.textContent = showAllProducts ? "Show Less" : "View All Stickers";
+            document.getElementById("shop-title").innerHTML = hasConfirmedSales
+                ? 'Best <span class="highlight">Sellers</span>'
+                : 'Featured <span class="highlight">Stickers</span>';
+            document.getElementById("best-seller-note").textContent = hasConfirmedSales
+                ? "Ranked by confirmed, active orders"
+                : "Your featured STICKVERSE collection";
+        }
+
+        function toggleViewAll() {
+            showAllProducts = !showAllProducts;
+            renderProducts();
         }
 
         function filterCategory(category, element) {
@@ -1938,6 +1977,8 @@ async function loadSupabaseProducts() {
 
         const dbProducts = data.map(row => ({
             id: 100000 + Number(row.id),
+            dbId: Number(row.id),
+            bestSellerCount: 0,
             name: row.name,
             category: row.category.toLowerCase(),
             price: 9,
@@ -1954,9 +1995,35 @@ async function loadSupabaseProducts() {
         renderWishlist();
 
         console.log("Supabase products loaded:", dbProducts.length);
+        await loadBestSellerCounts();
 
     } catch (error) {
         console.error("Product loading error:", error);
+    }
+}
+
+
+// Fetch only aggregate sticker sales. The SQL RPC returns no customer details.
+async function loadBestSellerCounts() {
+    try {
+        const { data, error } = await window.supabaseClient.rpc("get_best_selling_products");
+        if (error) throw error;
+
+        const salesByProduct = new Map((data || []).map(row => [
+            Number(row.product_id), Number(row.total_sold)
+        ]));
+        products.forEach(product => {
+            if (product.dbId != null) {
+                product.bestSellerCount = salesByProduct.get(Number(product.dbId)) || 0;
+            }
+        });
+        hasConfirmedSales = [...salesByProduct.values()].some(quantity => quantity > 0);
+        renderProducts();
+        console.log("STICKVERSE best-seller counts loaded");
+    } catch (error) {
+        console.error("Best-seller counts could not be loaded. Check the SQL RPC setup:", error);
+        // Product browsing remains available even if the optional ranking query is unavailable.
+        renderProducts();
     }
 }
 
